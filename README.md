@@ -1,7 +1,7 @@
-## i3-scripts
+# i3-scripts
 
 
-# brightness.c
+## brightness.c
 
 1. Compilation:
 ```bash
