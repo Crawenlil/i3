@@ -2,15 +2,10 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define INT_MAX 2147483647
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
 #define CIE_LEN 11
-// const unsigned char cie[CIE_LEN] = {
-//     0, 10, 25, 53, 96, 157, 240, 347, 483, 650,
-//     852,
-// };
 
 
 const char* mb = "/sys/class/backlight/intel_backlight/max_brightness";
@@ -59,24 +54,15 @@ int main(int argc, char* argv[]) {
     }
     int direction = atoi(argv[1]);
     int brightness = read_int(b);
-    printf("brightness: %d\n", brightness);
     int max_brightness = read_int(mb);
    
     int cie[CIE_LEN];
     cie1931(CIE_LEN, max_brightness, cie);
 
     int idx = nearest_idx(brightness, cie, CIE_LEN);
-    printf("idx: %d\n", idx);
     idx = MIN(MAX(idx + direction, 0), CIE_LEN - 1);
-    printf("idx: %d\n", idx);
     
-    brightness = cie[idx];
+    brightness = MIN(MAX(cie[idx], 0), max_brightness);
 
-    if(brightness < 0) {
-        brightness = 0;
-    }
-    if(brightness > max_brightness) {
-        brightness = max_brightness;
-    }
     return write_int(b, brightness);
 }
