@@ -8,7 +8,7 @@
 gcc brightness.c -o brightness -lm
 ```
 
-2. Add priviledges:
+2. Add privileges:
 ```
 sudo chown root:root brightness
 sudo chmod +s brightness
